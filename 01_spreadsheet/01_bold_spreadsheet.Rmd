@@ -1,0 +1,256 @@
+---
+title: "01 Filling Bold Spreadsheet"
+author: "Jasmine"
+date: '2019-03-01'
+output: html_document
+---
+
+This notebook will walk you through how to use R to quickly take the PTM master list
+# how to use
+- this code is previously configured to work with an example (run the code chunks to see the output)
+- make a copy of this folder and edit the code to work for your dataset
+
+make sure if you have the dependancies:
+- if not type in `install.packages()` to your console with the package name
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readxl)
+library(openxlsx)
+library(taxize)
+library(here)
+```
+
+# Loading the data
+
+## PTM master list
+
+1. make sure you have the most recent version of the file saved from the google drive
+2. place the file in the 
+
+Google sheet documentation:
+https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html
+```{r}
+
+library(googlesheets)
+#library(googlesheets4) # future will be googlesheets4
+#(ptm <- drive_get("PTM - Master List"))
+
+#need to authenticate (see popup window)
+mysheets <- gs_ls()
+
+gs_master <- gs_title("PTM - Master List")
+
+#gets the data
+gs_ptm<- gs_read(gs_master)
+
+#cleans up columns
+colnames(gs_ptm) <- gs_ptm[1,]
+new <- gs_ptm[-c(1,2),]
+```
+
+If you don't want to use the google sheet api
+```{r}
+master <- read_csv(here("01_spreadsheet/examples/PTM_Master.csv"))
+```
+
+## Data of interest
+1. put the file with all the PTM numbers you want in this folder
+2. replace the example "Quad_Data.csv"
+```{r}
+want <- read_csv(here("01_spreadsheet/examples/Quad_Data.csv"))
+```
+
+# filtering for the PTM# you want to submit and removing empty cells
+```{r}
+submit <- master %>% 
+  filter(master$`PTM#` %in% want$`PTM#`,
+         !is.na(`PTM#`))
+```
+
+## Get the Bold Template
+```{r}
+info <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 1)
+
+e_info <- info[FALSE,]
+
+tax <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 2)
+
+e_taxon <- tax[FALSE,]
+
+spe <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 3)
+
+e_specimen <- spe[FALSE,]
+
+coll <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 4)
+
+e_collect <- coll[FALSE,]
+```
+
+# Higher Taxonomy
+
+get the species you want
+*MOD - May need to combine between the Final determination and the field identification columns
+
+* note there is a limit to the number of entries you can retrieve at one time so subset the dataframe if needed
+```{r}
+higher <- classification(submit$`Final determination`, db="bold")
+```
+
+Get data for each species and write into a table
+- avoids NA
+- writes to a new dataframe
+- fills in Sample ID
+```{r}
+for(i in 1:length(higher)) {
+  if(!is.na(higher[i])) {
+    species <- higher[[i]]
+     rect <- c(species$name)
+     names(rect) <- c(species$rank)
+     
+    e_taxon <- e_taxon %>%  add_row(
+      Phylum = rect["phylum"],
+      Order = rect["order"],
+      Family = rect["family"],
+      Subfamily = rect["subfamily"],
+      Species = rect["species"],
+      Class = rect["class"],
+      Genus = rect["genus"])
+  }
+  else{e_taxon <- e_taxon %>%  add_row(Phylum = NA)}
+}
+higher_tax <- e_taxon %>% 
+  mutate(`Sample ID` = submit$`PTM#`)
+
+e_taxon <- tax[FALSE,]
+```
+
+```{r}
+
+df <- submit %>% 
+  mutate(taxonomy =  classification(submit$`Final determination`, db="bold"))
+
+test <- df %>% 
+  mutate(species = tax_name(query = df$`Final determination`,
+                            get = "species",
+                            db = "ncbi"))
+
+for(i in 1:length(higher)) {
+  if(!is.na(higher[i])) {
+    species <- higher[[i]]
+     rect <- c(species$name)
+     names(rect) <- c(species$rank)
+     
+    e_taxon <- e_taxon %>%  add_row(
+      Phylum = rect["phylum"],
+      Order = rect["order"],
+      Family = rect["family"],
+      Subfamily = rect["subfamily"],
+      Species = rect["species"],
+      Class = rect["class"],
+      Genus = rect["genus"])
+  }
+  else{e_taxon <- e_taxon %>%  add_row(Phylum = NA)}
+}
+higher_tax <- e_taxon %>% 
+  mutate(`Sample ID` = submit$`PTM#`)
+
+e_taxon <- tax[FALSE,]
+```
+
+## Voucher Sheet
+** CAUTION CHECK THROUGH THIS PART**
+Edit the data to match the formatting of BOLD data
+```{r}
+c_info <- submit %>% 
+  mutate(# Voucher
+    Sample_ID = paste0("PTM",`PTM#`),
+    Field_ID = Sample_ID,
+    Museum_ID = `Accession #`,
+    Collection_Code = "",
+    Insitution_Storing = "University of British Columbia, Herbarium",
+    #Taxon
+    Species = `Final determination`,
+    Identifier = `Determiners`,
+    Identifier_Email = "",
+    Identifier_Insitution  = "University of British Columbia",
+    `Identification_Method` = "",
+    `Taxonomy Notes` = "",
+    #collect
+    Collectors = "",
+    Collection_Date = `Date Collected`,
+    Country_Ocean = "Canada", # depends on data set
+    State_Province = "British Columbia", #depends on dataset
+    Region = "Hakai Protected Area",
+    #Specimen Details
+    Sex = "",
+    Reproduction = "",
+    Life_Stage = "",
+    Extra_info = "",
+    Note = "",
+    Voucher_stat = "",
+    Tissue_des = "",
+    Assoc_tax = "",
+    Assoc_spe = "",
+    External = ""
+    ) %>% #depends on dataset,
+  separate(Notes, c("Site_Code","Habitat"), ";", extra = "drop") %>% 
+  separate(Locality, c("Sector","Exact_site"),",")
+
+c_info <- c_info %>% 
+  mutate(Elevation = "",
+         Depth = "",
+         Elevation_Precision = "",
+         Depth_Precision = "",
+         GPS_Source	= "",
+         Coordinate_Accuracy= "",
+         Event_Time = "",
+         Collection_Date_Accuracy	= "",
+         Habitat = c_info$Habitat,
+         Sampling_Protocol = "",
+         Collection_Notes = c_info$Habitat,
+         Site_Code = c_info$Site_Code,
+         Collection_Event_ID = "")
+```
+
+```{r}
+#selecting the relevant columns
+voucher <- c_info %>%
+  select(`Sample_ID`,`Field_ID`, `Museum_ID`, `Collection_Code`, `Insitution_Storing`)
+
+names(voucher) <- names(e_info)
+```
+
+```{r}
+s <- c_info %>% 
+  select(`Sample_ID`)
+
+t_high <-  higher_tax %>%
+  select(`Phylum`, `Class`, `Order`, `Family`, `Subfamily`, `Genus`)
+t_sub <- c_info %>% 
+  select(`Species`,`Identifier`, `Identifier_Email`, `Identifier_Insitution`, `Identification_Method`, `Taxonomy Notes`)
+
+taxon <- cbind(s,t_high,t_sub)
+names(taxon) <- names(e_taxon)
+
+collect <-  c_info %>%
+  select(`Sample_ID`,`Collectors`, `Collection_Date`, `Country_Ocean`,`State_Province`, `Region`, `Sector`, `Exact_site`, `Latitude`, `Longitude`,`Elevation`, Depth, Elevation_Precision, Depth_Precision, Depth_Precision, GPS_Source, Coordinate_Accuracy, Event_Time, Collection_Date_Accuracy, Habitat, Sampling_Protocol, Collection_Notes, Site_Code, Collection_Event_ID)
+
+names(collect) <- names(e_collect)
+```
+
+```{r}
+sd <- c_info %>% 
+  select(Sample_ID,Sex, Reproduction, Life_Stage, Extra_info, Note, Voucher_stat, Tissue_des, Assoc_tax, Assoc_spe, External)
+
+names(sd) <- names(e_specimen)
+```
+
+# Finally saving your data
+- always look through the final records to see if the information has been placed correctly
+```{r}
+lod <- list("Voucher Info" = voucher, "Taxonomy" = taxon, "Specimen Details" =sd, "Collection Data" = collect )
+write.xlsx(lod, file = "results/bold_spread_quad.xlsx", append = TRUE)
+```

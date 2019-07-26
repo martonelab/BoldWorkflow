@@ -1,0 +1,170 @@
+---
+title: "ptm_herb"
+author: "Jasmine"
+date: '2019-03-30'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(leaflet)
+library(maps)
+library(plotly)
+```
+
+## Load in data
+### from Herbarium and Martone Lab
+```{r}
+herb <- read_csv(here("bold_workflow/master_list/ptm_herb_head.csv"))
+
+ptm <- read_csv(here("bold_workflow/master_list/ptm_clean.csv"))
+```
+
+```{r}
+combo <- left_join(ptm,herb,by = "Accession #")
+
+test <- combo %>% 
+  select(`Accession #`, `PTM#`, Genus, species,
+         Country, state_province) %>% 
+  filter(combo$`Red/Coralline/Green/Brown` == "Coralline")
+
+```
+
+```{r}
+mapping <- function(ds) {
+  mn <- ds %>% 
+  mutate(Latitude = as.numeric(Latitude),
+         Longitude = as.numeric(Longitude))
+  
+  map <- leaflet() %>% 
+  addProviderTiles("CartoDB") %>% 
+  addCircleMarkers(lng = mn$geo_Long_dd, lat = mn$geo_Lat_dd,
+             popup = paste(mn$`PTM#`, mn$`Accession #`, "Lat:",mn$Latitude, "Long:", mn$Longitude),
+             clusterOptions = markerClusterOptions())
+  return(map)
+}
+mapping(combo)
+```
+
+
+## Country Distribution Plots
+```{r}
+#Country
+ggplot(test, aes(x = Country)) +
+  geom_bar()
+
+#Breakdown
+ggplot(test, aes(x = Country, fill = state_province)) +
+  geom_bar()
+
+#look at Corallines
+sp <- ggplot(test, aes(x = Genus, fill = species)) +
+  geom_bar()
+ggplotly()
+
+ggplot(test, aes(x = Genus, fill = Country)) +
+  geom_bar()
+ggplotly()
+
+#Specifically Reds
+cora <- filter(combo,combo$`Red/Coralline/Green/Brown` == "Red" )
+c <- ggplot(cora, aes(x = Genus, fill = species)) +
+  geom_bar()
+ggplotly()
+```
+
+Testing the ggplot mapping
+```{r}
+m <- map_data("world")
+
+base <- ggplot(m, aes(map_id = region)) +
+  geom_map(aes(colour = "grey"), map = m) +
+    expand_limits(x = m$long, y = m$lat)
+
+ggplot(test, aes(map_id = Country)) +
+  geom_map(aes(fill = Country), map = m ) +
+  expand_limits(x = m$long, y = m$lat) +
+  base
+
+# Better example
+crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
+crimesm <- reshape2::melt(crimes, id = 1)
+if (require(maps)) {
+  states_map <- map_data("state")
+  ggplot(crimes, aes(map_id = state)) +
+    geom_map(aes(fill = Murder), map = states_map) +
+    expand_limits(x = states_map$long, y = states_map$lat)
+
+  last_plot() + coord_map()
+  ggplot(crimesm, aes(map_id = state)) +
+    geom_map(aes(fill = value), map = states_map) +
+    expand_limits(x = states_map$long, y = states_map$lat) +
+    facet_wrap( ~ variable)
+}
+```
+
+ganimate
+```{r}
+library(gganimate)
+library(ggthemes)
+library(lubridate)
+
+world <- ggplot() +
+    borders("world", colour = "gray85", fill = "gray80") +
+  theme_map() 
+
+collect <- filter(combo,
+                  !is.na(combo$`Main Collector`))
+
+no_cord <- filter(combo,
+                  !is.na(combo$`geo_Long_dd`))
+
+library(tibble)
+
+ghost_points_ini <- tibble(
+  Collected_Date = as.Date('2011-09-01'),
+  `Main Collector` = 0, Longitude = 0, Latitude = 0)
+
+ghost_points_fin <- tibble(
+  Collected_Date  = seq(as.Date('1900-05-16'),
+                   as.Date('-05-30'),
+                   by = 'days'),
+  followers = 0, lon = 0, lat = 0)
+
+collect$Collected_Date <- as.Date(collect$Collected_Date)
+
+map <- world +
+  geom_point(aes(x = collect$Longitude,
+                 y= collect$Latitude,
+                 colour = collect$`Main Collector`,
+                 size = 2.5)) +
+  labs(title = "Date: {frame_time}") +
+  transition_time(Collected_Date)
+ggplotly()
+
+ggplot(combo, aes(x = combo$Collected_Date)) +
+  geom_bar()
+ggplotly()
+
+
+```
+
+```{r}
+library(gapminder)
+
+ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  facet_wrap(~continent) +
+  # Here comes the gganimate specific bits
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  transition_time(year) +
+  ease_aes('linear')
+
+last_animation()
+```
+

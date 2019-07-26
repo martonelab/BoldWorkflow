@@ -1,0 +1,110 @@
+Date,Site,Light_Surface (umol),Light_Depth (umol),Dive No.,Transect No.,Quad No.,Depth nc (m),Original Det.,Sample#,% coverage,%_corrected,comments,PTM#,Code,Actual % cover,Species name (Provisional name)
+July-07-2014,1,1292.9,34.24,3,2,1,13.3,Bossiella schmittii,1,7,7,,"1,058",quad 1-sample 1; on rock/bryozoan,0.07,Bossiella schmittii
+July-07-2014,1,1292.9,34.24,3,2,1,13.3,Coralline crust,2,15,15,,"1,059",quad 1-sample 2; on bryozoan,0.15,Crusticorallina muricata
+July-07-2014,1,1292.9,34.24,3,2,1,13.3,Coralline crust,3,5,5,same as 2?,"1,060",quad 1-sample 3; on bryozoan,0.05,Crusticorallina muricata
+July-07-2014,1,1292.9,34.24,3,2,1,13.3,Coralline crust,4,4,4,same as 2?,"1,061",quad 1-sample 4; on shell material,0.04,Crusticorallina paineii
+July-07-2014,1,1292.9,34.24,3,2,1,13.3,Coralline crust,5,2,2,,"1,062",quad 1-sample 5;very dirty; on bryozoan colony,0.02,Mesophyllum vancouveriense
+July-07-2014,1,1292.9,34.24,3,2,2,13.2,Coralline crust,1,5,13.88888889,,"1,065",quad 2-sample 1a; on bryozoan; voucher in bag,0.138888889,Mesophyllum vancouveriense
+July-07-2014,1,1292.9,34.24,3,2,2,13.2,Coralline crust,2,trace,0.5,,"1,066",quad 2-sample 1b; on bryozoan; voucher in bag,0.005,Mesophyllum vancouveriense
+July-07-2014,1,1292.9,34.24,3,2,2,13.2,Coralline crust,3,4,11.11111111,,"1,067",quad 2-sample 2; on bryozoan,0.111111111,Mesophyllum vancouveriense
+July-07-2014,1,1292.9,34.24,3,2,3,13.7,Coralline crust,1,4,16.66666667,,"1,069",quad 3-sample 1; on rock,0.166666667,Crusticorallina adhaerens
+July-07-2014,1,1292.9,34.24,3,2,3,13.7,Coralline crust,2,trace,0.5,,"1,070",quad 3-sample 2; on rock,0.005,Crusticorallina paineii
+July-07-2014,1,1292.9,34.24,3,2,3,13.7,Bossiella sp.,3,?,0.5,same as 2?,"1,071",quad 3-sample 3a; on rock,0.005,Bossiella reptans
+July-07-2014,1,1292.9,34.24,3,2,3,13.7,Coralline crust,4,2,8.333333333,no DNA b/c on tunicate,"1,072",quad 3-sample 3b; on bryozoan; need DNA; voucher in bag,0.083333333,Chiharaea americana
+July-07-2014,1,1292.9,34.24,3,2,3,13.7,Coralline crust,5,trace,0.5,,"1,073",quad 3-sample 5; on rock; no voucher,0.005,Chiharaea americana
+July-07-2014,1,1292.9,34.24,4,2,4,13,Bossiella sp.,1,trace,0.5,,"1,074",quad 4-sample 1; on rock,0.005,Bossiella reptans
+July-07-2014,1,1292.9,34.24,4,2,4,13,Coralline crust,2,1,1.4,,"1,075",quad 4-sample 2; dirty; on rock,0.014,Crusticorallina adhaerens
+July-07-2014,1,1292.9,34.24,4,2,4,13,Coralline crust,3,2,2.8,,"1,076",quad 4-sample 3; on rock,0.028,Chiharaea americana
+July-07-2014,1,1292.9,34.24,4,2,4,13,Coralline crust,4,2,2.8,,"1,077",quad 4-sample 4; on rock,0.028,Lithothamnion glaciale
+July-07-2014,1,1292.9,34.24,4,2,5,12.8,Chiharaea americana,1,15,15,,"1,078",quad 5-sample 1; voucher on rock,0.15,Chiharaea americana
+July-07-2014,1,1292.9,34.24,4,2,5,12.8,Coralline crust,2,10,10,,"1,079",quad 5-sample 2,0.1,Lithophyllum sp.2 (Corallinac sp.4BCcrust) 
+July-07-2014,1,1292.9,34.24,4,2,5,12.8,Coralline crust,3,1,1,,"1,080",quad 5-sample 3,0.01,Crusticorallina adhaerens
+July-07-2014,1,1292.9,34.24,4,2,5,12.8,Coralline crust,4,5,5,,"1,081",quad 5-sample 4; needs DNA; voucher in bag,0.05,Crusticorallina adhaerens
+July-07-2014,1,1292.9,34.24,4,2,5,12.8,Lithothamnion phymatodeum,5,trace,0.5,,"1,082","quad 5-sample 5",0.005,Lithothamnion glaciale
+July-07-2014,1,1292.9,34.24,4,2,6,12.9,Coralline crust,1,4,6.666666667,,"1,083",quad 6-sample 1,0.066666667,Lithothamnion glaciale
+July-07-2014,1,1292.9,34.24,4,2,6,12.9,Chiharaea americana,2,3,5,,"1,084",quad 6-sample 2,0.05,Chiharaea americana
+July-07-2014,1,1292.9,34.24,4,2,6,12.9,Coralline crust,3,3,5,,"1,085",quad 6-sample 1; on B. schmittii; voucher in bag,0.005,Melobesia sp.
+July-07-2014,1,1292.9,34.24,4,2,6,12.9,Bossiella schmittii,,,,,,,0.05,Bossiella schmittii
+July-07-2014,1,1292.9,34.24,4,2,6,12.9,Coralline crust,4,5,8.333333333,,"1,086",quad 6-sample 4; very tiny!; DNA only; no voucher,0.083333333,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-13-2014,2,2300,45.92,9,1,1,12.8,coralline crust,1,2.5,2.631578947,wormy,"1,190",quad 1-sample 1; wormy,0.026315789,"Crusticorallina adhaerens"
+July-13-2014,2,2300,45.92,9,1,1,12.8,Chiharaea americana,2,5,5.263157895,sample on rock,"1,191",quad 1-sample 2; not a sequencing priority,0.052631579,Chiharaea americana
+July-13-2014,2,2300,45.92,9,1,1,12.8,Coralline crust,3,2,2.105263158,sample on rock with C. americana,"1,192",quad 1-sample 3,0.021052632,Crusticorallina paineii
+July-13-2014,2,2300,45.92,9,1,1,12.8,Coralline crust,4,6,6.315789474,,"1,193",quad 1-sample 4; dirty sample,0.063157895,"Crusticorallina adhaerens"
+July-13-2014,2,2300,45.92,9,1,1,12.8,Coralline crust,5,2.5,2.631578947,on whelk,"1,194",quad 1-sample 5; on whelk; voucher in bag; needs DNA,0.026315789,Lithothamnion glaciale
+July-13-2014,2,2300,45.92,9,1,1,12.8,Coralline crust,6,trace,0.5,,"1,195",quad 1-sample 6,0.005,"Crusticorallina adhaerens"
+July-13-2014,2,2300,45.92,9,1,1,12.8,Coralline crust,7,1,1.052631579,,"1,196",quad 1-sample 7; (missed a sample?; worksheet said B. schmittii),0.010526316,Mesophyllum vancouveriense
+July-13-2014,2,2300,45.92,10,2,2,12.8,Chiharaea bodegensis,1,2,2.040816327,,"1,197",quad 2-sample 1; voucher in bag; not a sequencing priority,0.020408163,Chiharaea bodegensis
+July-13-2014,2,2300,45.92,10,2,2,12.8,Chiharaea americana,2,15,15.30612245,,"1,198",quad 2-sample 2; voucher in bag; not a sequencing priority,0.153061224,Chiharaea americana
+July-13-2014,2,2300,45.92,10,2,2,12.8,Coralline crust,3,1,1.020408163,,"1,199",quad 2-sample 3; not adherent; shelf-like,0.010204082,Crusticorallina paineii
+July-13-2014,2,2300,45.92,10,2,2,12.8,Coralline crust,4,5,5.102040816,"wormy, with proturberances ","1,200",quad 2-sample 4; wormy; with proturberances,0.051020408,Lithothamnion glaciale
+July-13-2014,2,2300,45.92,10,2,2,12.8,Coralline crust,5,10,10.20408163,previously 6,"1,201",quad 2-sample 5; rosey pink crust in broken corner; smaller on rock; voucher in bag,0.102040816,Lithothamnion glaciale
+July-13-2014,2,2300,45.92,10,2,2,12.8,Coralline crust,6,15,15.30612245,previously 7,"1,202",quad 2-sample 6; thin peachy colour; smooth; voucher in bag,0.153061224,Lithothamnion sp. (Corillinac sp.7BCcrust)
+July-13-2014,2,2300,45.92,10,2,2,12.8,B.schmittii,7,1,1.020408163,,,,0.010204082,Bossiella schmittii
+July-13-2015,2,2300,45.92,10,2,3,12.4,Coralline crust,1,25,32.93650794,,"1,203",quad 3-sample 1; not adherent; Derbesia in worm tubes; swirly; reproductive; thick white margin; voucher in bag,0.329365079,Crusticorallina muricata
+July-13-2016,2,2300,45.92,10,2,3,12.4,Coralline crust,2,5,6.587301587,same as above but with worms?,"1,204",quad 3-sample 2; wormy; voucher in bag; same as 1203?,0.065873016,Crusticorallina muricata
+July-13-2017,2,2300,45.92,10,2,3,12.4,Coralline crust,3,3,3.952380952,,"1,205",quad 3-sample 3,0.03952381,Mesophyllum vancouveriense
+July-13-2018,2,2300,45.92,10,2,3,12.4,Lithothamnion phymatodeum,4,10,13.17460317,,"1,206",quad 3-sample 4,0.131746032,Lithothamnion glaciale
+July-13-2019,2,2300,45.92,10,2,3,12.4,Coralline crust,5,15,19.76190476,,"1,207",quad 3-sample 5; DNA only; no voucher,0.197619048,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-13-2019,2,2300,45.92,10,2,3,12.4,B.schmittii,6,5,6.587301587,,,,0.065873016,Bossiella schmittii
+July-13-2022,2,2300,45.92,10,2,4,11.9,Coralline crust,1,8,9.056603774,,"1,208",quad 4-sample 1,0.090566038,Crusticorallina paineii
+July-13-2022,2,2300,45.92,10,2,4,11.9,C.americana,2,5,5.660377358,,,,0.056603774,Chiharaea americana
+July-13-2022,2,2300,45.92,10,2,4,11.9,Coralline crust,3,trace,0.5,on limpet,"1,209",quad 4-sample 3; on limpets; needs DNA; voucher in bag,0.005,Lithothamnion glaciale
+July-13-2022,2,2300,45.92,10,2,4,11.9,Lithothamnion phymatodeum,4,5,5.660377358,,"1,210",quad 4-sample 4,0.056603774,Lithothamnion glaciale
+July-13-2022,2,2300,45.92,10,2,4,11.9,Coralline crust,5,10,11.32075472,pink speckled (conceptacles?) hard to sample!,"1,211",quad 4-sample 5; pink speckled,0.113207547,Lithophyllum sp.3 (Corsp27BCcrust)
+July-13-2022,2,2300,45.92,10,2,4,11.9,B.schmittii,6,25,28.30188679,,,,0.283018868,Bossiella schmittii
+July-13-2022,2,2300,45.92,11,3,5,15,Lithothamnion phymatodeum,1,10,10,,"1,212",quad 5-sample 1; not very clean (sample 1); voucher in bag,0.1,Mesophyllum vancouveriense
+July-13-2022,2,2300,45.92,11,3,5,15,Coralline crust,2,10,10,same as above?,"1,213",quad 5-sample 2,0.1,Mesophyllum vancouveriense
+July-13-2022,2,2300,45.92,11,3,5,15,B.schmittii,3,4,4,,,,0.04,Bossiella schmittii
+July-13-2023,2,2300,45.92,11,3,6,15,Coralline crust,1,7,7,,"1,214",quad 6-sample 1; on B. schmittii; voucher in bag,0.07,Mesophyllum vancouveriense
+July-13-2023,2,2300,45.92,11,3,6,15,Coralline crust,2,1,1,,"1,215",quad 6-sample 2; dirty,0.01,Lithothamnion glaciale
+July-13-2023,2,2300,45.92,11,3,6,15,Coralline crust,3,1,1,same as #2?,"1,216",quad 6-sample 3,0.01,Mesophyllum vancouveriense
+July-13-2023,2,2300,45.92,11,3,6,15,B.schmittii,4,15,15,,,,0.15,Bossiella schmittii
+July-08-2014,3,2283,73.44,5,1,1,14.4,Coralline crust,1,20,21.68674699,,"1,096",quad 1-sample 1; no voucher; DNA only,0.21686747,Crusticorallina paineii
+July-08-2014,3,2283,73.44,5,1,1,14.4,Coralline crust,2,60,65.06024096,,"1,097",quad 1-sample 2; no voucher; DNA only,0.65060241,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,1,14.4,Coralline crust,3,1,1.084337349,same as 2?,"1,098",quad 1-sample 3; no voucher; DNA only; same as 1097?,0.010843373,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,1,14.4,Coralline crust,4,1,1.084337349,same as 3?,"1,099",quad 1-sample 4; voucher in bag; same as 1098?,0.010843373,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,1,14.4,Coralline crust,5,1,1.084337349,same as 4?,"1,100",quad 1-sample 5; no voucher; DNA only; same as 1099?,0.010843373,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,2,14.4,Coralline crust,1,3,3.238636364,,"1,101",quad 5-sample 1,0.032386364,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,5,1,2,14.4,Coralline crust,2,85,91.76136364,,"1,102","quad 2-sample 1; no voucher, DNA only; very small sample",0.917613636,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,3,14.1,Coralline crust,1,15,21.42857143,,"1,104",quad 3-sample 1,0.214285714,Crusticorallina muricata
+July-08-2014,3,2283,73.44,5,1,3,14.1,Coralline crust,2,6,8.571428571,,"1,105",quad 3-sample 2 (C. americana?),0.085714286,Chiharaea americana
+July-08-2014,3,2283,73.44,5,1,3,14.1,Coralline crust,3,40,57.14285714,,"1,106",quad 3-sample 3; no voucher; DNA only; very tiny sample,0.571428571,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,5,1,3,14.1,Coralline crust,4,2,2.857142857,same as 3?,"1,107",quad 3-sample 4; no voucher; DNA only; samll sample,0.028571429,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,5,1,3,14.1,Coralline crust,5,trace,0.5,,"1,108",quad 3-sample 5,0.005,Neopolyporolithon loculosum
+July-08-2014,3,2283,73.44,6,2,4,12.9,Coralline crust,1,20,39.6,,"1,113",quad 4-sample 1,0.396,Crusticorallina adhaerens
+July-08-2014,3,2283,73.44,6,2,4,12.9,Coralline crust,2,30,59.4,,"1,114",quad 4-sample 2; no voucher; DNA only; very small sample,0.594,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,6,2,5,12.9,Coralline crust,1,95,95,,"1,115",quad 5-sample 1,0.95,Lithophyllum sp.3 (Corsp27BCcrust)
+July-08-2014,3,2283,73.44,6,2,5,12.9,Coralline crust,2,5,5,,"1,116",quad 5-sample 2; no voucher; DNA only; very small sample,0.05,Lithophyllum sp.1 (Lithophyllum sp.2)
+July-08-2014,3,2283,,,,,,,,0,,Not in quad,"1,117",quad 5 sample 3,0,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust (P. whid?),1,25,44.64285714,,"1,118",quad 6-sample 1; P. whidbeyense?,0.446428571,Crusticorallina muricata
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust,2,1,1.785714286,,"1,119",quad 6-sample 2; on cup coral,0.017857143,Crusticorallina adhaerens
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust,3,30,53.57142857,,"1,120",quad 6-sample 3; hard to sample; dark pink speckled (conceptacles),0.267857143,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust,4,,,same as 3?,"1,121",quad 6-sample 4; no voucher; DNA only; same as 1120?,0,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust,5,,,same as other one on cup coral?,"1,122",quad 6-sample 5; voucher in bag; same as 1110?,0,Crusticorallina adhaerens
+July-08-2014,3,2283,73.44,6,2,6,13,Coralline crust,6,,,same as 4?,"1,123",quad 6-sample 6; dark speckled; same as 1120?,0.267857143,Lithophyllum sp.1 (Lithophyllum sp.2)
+July-06-2014,4,868.8,15.8,1,1,1,12.5,Coralline crust,1,5,5,,"1,032",quad 1-sample 1,0.05,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,1,12.5,Coralline crust,2a,75,75,split into 2 samples,"1,033",quad 1-sample 2a; on barnacle; voucher in bag,0.75,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,1,12.5,Coralline crust,2b,,,,"1,034",quad 1-sample 2b; on cap corral; voucher in bag,0,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,1,12.5,Coralline crust,3,75?,,same as 2?,"1,035",quad 1-sample 3; on rock,0,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,1a,2,4.347826087,split into 2 samples,"1,036",quad 2-sample 1a; on rock,0.043478261,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,1b,,,,"1,037",quad 2-sample 1b; on barnacle; no voucher,0,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,2,1,2.173913043,,"1,038",quad 2-sample 2; on cap corral; voucher in bag,0.02173913,Bossiella exarticulata
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,3,1,2.173913043,,"1,039",quad 2-sample 3; on rock,0.02173913,Lithophyllum sp.3 (Corsp27BCcrust)
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,4,0.5,0.5,,"1,040",quad 2-sample 4; single shell; voucher in bag,0.005,Mesophyllum sp.1 (Mesophyllum sp.2)
+July-06-2014,4,868.8,15.8,1,1,2,13.5,Coralline crust,5,30,65.2173913,,"1,041",quad 2-sample 5; on barnacle; voucher in bag,0.652173913,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,3,13.2,Coralline crust,1,3,5.142857143,,"1,042",quad 3-sample 1; single shell; voucher in bag,0.051428571,Mesophyllum sp.2 (Corsp13BCcrust)
+July-06-2014,4,868.8,15.8,1,1,3,13.2,Coralline crust,2,7,12,,"1,043",quad 3-sample 2; on rock; voucher in bag,0.12,Crusticorallina adhaerens
+July-06-2014,4,868.8,15.8,1,1,3,13.2,Chiharaea americana,3,5,8.571428571,3 and 4 appear the same,"1,044",quad 3-sample 3; on rock,0.085714286,Chiharaea americana
+July-06-2014,4,868.8,15.8,1,1,3,13.2,Chiharaea americana,4,20,34.28571429,,"1,045",quad 3-sample 4; on rock,0.342857143,Chiharaea americana
+July-06-2014,4,868.8,15.8,2,1,4,10.1,Chiharaea americana,1,40,54.28571429,,"1,046",quad 4-sample 1; on rock,0.542857143,Chiharaea americana
+July-06-2014,4,868.8,15.8,2,1,4,10.1,Coralline crust,2,20,27.14285714,,"1,047",quad 4-sample 2; on rock; no voucher,0.271428571,Lithophyllum sp.4 (Lithophyllum sp.4)
+July-06-2014,4,868.8,15.8,2,1,4,10.1,Coralline crust,3,5,6.785714286,,"1,048",quad 4-sample 3; on rock; voucher,0.067857143,Lithophyllum sp.3 (Corsp27BCcrust)
+July-06-2014,4,868.8,15.8,2,1,4,10.1,Coralline crust,4,5,6.785714286,,"1,049",quad 4-sample 4; on rock; dirty,0.067857143,Bossiella exarticulata
+July-06-2014,4,868.8,15.8,2,1,5,10.2,Coralline crust,1,15,28.33333333,,"1,050",quad 5-sample 1; on rock,0.283333333,"Crusticorallina adhaerens"
+July-06-2014,4,868.8,15.8,2,1,5,10.2,Coralline crust,2,25,47.22222222,,"1,051",quad 5-sample 2; on rock; no voucher; very small sample,0.472222222,Lithophyllum sp.3 (Corsp27BCcrust)
+July-06-2014,4,868.8,15.8,2,1,5,10.2,Coralline crust,3,25?,,same as 2?,"1,052",quad 5-sample 3; on rock; no voucher,0,Lithophyllum sp.3 (Corsp27BCcrust)
+July-06-2014,4,868.8,15.8,2,1,5,10.2,Coralline crust,4,5,9.444444444,,"1,053",quad 5-sample 4; on rock,0.094444444,Chiharaea americana 
+July-06-2014,4,868.8,15.8,2,1,6,10.1,Coralline crust,1,25,33.203125,,"1,054",quad 6-sample 1; on rock,0.33203125,Chiharaea americana
+July-06-2014,4,868.8,15.8,2,1,6,10.1,Coralline crust,2,7,9.296875,,"1,055",quad 6-sample 2; on cup coral,0.09296875,"Crusticorallina adhaerens"
+July-06-2014,4,868.8,15.8,2,1,6,10.1,Coralline crust,3,2,2.65625,,"1,056",quad 6-sample 3; on rock,0.0265625,Crusticorallina muricata
+July-06-2014,4,868.8,15.8,2,1,6,10.1,Coralline crust,4,30,39.84375,,"1,057",quad 6-sample 4; on rock; voucher in bag,0.3984375,Lithophyllum sp.3 (Corsp27BCcrust)

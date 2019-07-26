@@ -1,0 +1,104 @@
+---
+title: "file_retrieval"
+author: "Jasmine"
+date: '2019-04-18'
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+Names of files you want
+* note this is a file path for Mac. For Windows the path uses \
+```{r}
+path <- "/Volumes/martonelab/Sequences/0_PTM/PTM001-500"
+```
+
+uses keywords (regex) to find the files containing those characters
+| - or
+
+Naming convention
+_ seperates
+
+genes
+- rbcl
+- psba
+```{r}
+library(googlesheets)
+#library(googlesheets4) # future will be googlesheets4
+#(ptm <- drive_get("PTM - Master List"))
+
+#need to authenticate
+mysheets <- gs_ls()
+
+gs_master <- gs_title("PTM - Master List")
+
+#gets the data
+gs_ptm<- gs_read(gs_master)
+
+#cleans up columns
+colnames(gs_ptm) <- gs_ptm[1,]
+new <- gs_ptm[-c(1,2),]
+```
+
+
+```{r}
+seq <- c("PTM37_","PTM88")
+
+want <- c(123,34,700)
+
+greater_than <- map_dbl(want, function(x) (x > 500))
+
+sheet <- filter(new,
+                `PTM#` %in% want) %>% 
+  select(`PTM#`)
+
+list.filter(want)
+```
+
+
+Note: you need to be connected to the Martone Lab server
+```{r}
+my_files <- seq %>% 
+  map(~list.files(path = path,
+                  pattern = .,
+                  all.files = T,
+                  full.names = T))
+```
+
+look at the results
+```{r}
+my_files[[1]]
+my_files[[2]]
+```
+
+
+
+reading ab1 files in R
+```{r}
+library(BiocManager)
+library(sangerseqR)
+library(seqinr)
+```
+
+```{r}
+ab <- sangerseqR::read.abif(my_files[[2]])
+
+#what you need
+sanger <- sangerseqR::readsangerseq(my_files[[2]])
+
+sangerseqR::chromatogram(sanger, width = 200, height = 2, trim5 = 50, trim3 = 100, showcalls = "both", filename = "chromatogram.jpg")
+
+bases <- sangerseqR::primarySeq(sanger, string = T)
+
+
+# reads the ab1 files
+sequences <- map(my_files, readsangerseq) %>% 
+  map(.,primarySeq)
+
+#saves all the files into one large fasta
+map2(sequences, seq, function(x,y)
+  write.fasta(x, names = y, file.out = "test.fasta", open = "a"))
+  
+```

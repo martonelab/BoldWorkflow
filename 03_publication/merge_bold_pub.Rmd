@@ -1,0 +1,49 @@
+---
+title: "merge_bold_pub"
+author: "Jasmine"
+date: '2019-02-26'
+output: html_document
+---
+
+Make sure you have all the libraries installed
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readxl)
+library(tidyverse)
+library(here)
+```
+
+## Read in your files
+```{r}
+bold <- read_xlsx(here("03_publication/examples/bold.xlsx"),skip = 2)
+s1 <- read_csv(here("03_publication/examples/TableS1_V2.csv"))
+
+s1 <- filter(s1,!is.na(s1$`Collection Number (PTM)`))
+```
+
+## Fixing up the fields before joining
+note this is done specifically with the TableS1_V2.csv. Some modification to the columns used may vary
+```{r}
+acc <- bold %>% mutate(PTM = stringr::str_replace(bold$`Field ID`,"PTM", "")) %>% select(PTM,`PSBA Accession`,`COI-5P Accession`,`rbcL Accession`) %>% 
+  transform(PTM = as.numeric(PTM))
+```
+
+
+## Populating the Genbank number field
+Note: this keeps the individual columns for each gene as well --> do a selection to remove them
+```{r}
+s1_acc <- left_join(s1, acc, by = c("Collection Number (PTM)" = "PTM"))
+
+s1_na <- replace(s1_acc, is.na(s1_acc), "")
+
+pub <- s1_na %>% 
+  mutate(`Genbank Number` = paste(s1_na$PSBA.Accession,s1_na$COI.5P.Accession,s1_na$rbcL.Accession))
+```
+
+## Saving
+
+The final file will be in the results folder
+```{r}
+write.csv(pub, file ="results/TableS1_V2_genbank.csv")
+```

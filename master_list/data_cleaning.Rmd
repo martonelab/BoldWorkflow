@@ -1,0 +1,247 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Data cleaning
+_Attempts to standardize columns into the same format and seperate out depth and country information_
+
+## dependancies
+```{r dependancies}
+library(tidyverse)
+library(here)
+library(leaflet)
+library(readxl)
+library(janitor)
+library(googlesheets)
+#source("./helpers_masterlist.R")
+library(revgeo)
+
+
+
+```
+
+download google sheet
+```{r}
+## Global
+
+mysheets <- gs_ls()
+
+gs_master <- gs_title("PTM - Master List")
+
+#gets the data
+gs_ptm<- gs_read(gs_master)
+
+#cleans up columns
+colnames(gs_ptm) <- gs_ptm[1,]
+new <- gs_ptm[-c(1,2),]
+```
+
+# GPS Coordinates
+- Cleaning up all that are not decimal degrees
+- non decimal degree coordinates are less machine readable (ie DD"MM'SS format may mutate if the file is saved differently)
+```{r echo=TRUE}
+#all records that have decimal degrees
+ptm_ll <- filter(new,
+                 !is.na(Latitude),
+                 !str_detect(new$Latitude,"\""),
+                 !str_detect(new$Latitude,"\'"),
+                 !str_detect(new$Latitude,"N"))
+```
+
+## Mapping the data in leaflet reveals the issues
+- coordinates are poor for Chile (- are not in latitude or longitude) -> plotted in Kyrzkstan
+### plotting data to check work
+```{r echo=FALSE}
+#function for mapping
+mapping <- function(ds) {
+  mn <- ds %>% 
+  mutate(Latitude = as.numeric(Latitude),
+         Longitude = as.numeric(Longitude))
+  
+  map <- leaflet() %>% 
+  addProviderTiles("CartoDB") %>% 
+  addCircleMarkers(lng = mn$Longitude, lat = mn$Latitude,
+             popup = paste(mn$Locality, mn$`PTM#`, "Lat",mn$Latitude, "Long", mn$Longitude),
+             clusterOptions = markerClusterOptions())
+  return(map)
+}
+
+mapping(ptm_ll)
+
+# gets the Country and State information from the Longitude and Latitude information
+test <- tail(ptm_ll)
+rev <- revgeo(ptm_ll$Longitude,ptm_ll$Latitude,output = "frame")
+alarm()
+```
+
+
+### transforming data to match
+* maybe you can use a for loop here
+```{r}
+change <- c("island","Island")
+
+for (x in change) {
+  ptm_ll$Longitude = ifelse(grepl(x,ptm_ll$Locality) & !grepl("-",ptm_ll$Longitude),
+  paste0("-",ptm_ll$Longitude),
+  ptm_ll$Longitude)
+}
+
+ptm_ll$Longitude = ifelse(grepl("Chile",ptm_ll$Locality) & !grepl("-",ptm_ll$Latitude),
+  paste0("-",ptm_ll$Longitude),
+  ptm_ll$Longitude)
+
+ptm_ll$Latitude = ifelse(grepl("Chile",ptm_ll$Locality) & !grepl("-",ptm_ll$Latitude),
+  paste0("-",ptm_ll$Latitude),
+  ptm_ll$Latitude)
+```
+
+### plotting data again to check work
+```{r echo=FALSE}
+cleaned <- mapping(ptm_ll)
+```
+
+convert to decimal degrees
+- need to resolve: 1718 (in NT?)
+- converts notation (ie. " ') to spaces to be passed to conv_unit (format accepted)
+- careful! needed to add negative sign to make sure W values are properly converted
+```{r}
+#all records that need cleaning
+ptm_cord <- filter(new,
+                 !is.na(Latitude),
+                 !new$`PTM#` %in% ptm_ll$`PTM#`)
+
+# change the symbols to a space
+symbol <- c('°','\'')
+for (y in symbol) {
+  ptm_cord$Latitude = gsub(y, ' ', ptm_cord$Latitude)
+}
+
+char <- c('\"',"\\")
+for (c in char) {
+  ptm_cord$Latitude = gsub(char, "", ptm_cord$Latitude)
+}
+ptm_cord$Latitude = gsub('N', '', ptm_cord$Latitude)
+ptm_cord$Latitude = trimws(ptm_cord$Latitude, which = "both")
+
+ptm_cord$Longitude = ifelse(grepl("W",ptm_cord$Longitude),
+  paste0("-",ptm_cord$Longitude),
+  ptm_cord$Longitude)
+
+lc <- c('W','E', '\"')
+for(c in lc) {
+  ptm_cord$Longitude = gsub(c, '', ptm_cord$Longitude)
+}
+
+for (x in symbol) {
+  ptm_cord$Longitude = gsub(x, ' ', ptm_cord$Longitude)
+}
+
+ptm_cord$Longitude = trimws(ptm_cord$Longitude, which = "both")
+# convert from decimal minutes to decimal degrees
+ptm_cord$Latitude = measurements::conv_unit(ptm_cord$Latitude, from = 'deg_min_sec', to = 'dec_deg')
+ptm_cord$Longitude = measurements::conv_unit(ptm_cord$Longitude, from = 'deg_min_sec', to = 'dec_deg')
+```
+
+# checking converted data
+```{r}
+ mapping(ptm_cord)
+
+## up to here
+```
+
+putting back the data together and plotting
+- come back and look why ptm_gps does not equal to 1665
+```{r}
+new_na <- filter(new,
+                 is.na(Latitude))
+ptm_gps <- rbind(ptm_ll, ptm_cord, new_na)
+
+mapping(ptm_gps)
+```
+
+## Date collected
+```{r}
+group_by(ptm_gps, `Date Collected`) %>% 
+  summarise()
+ptm_gps <- ptm_gps %>%
+  mutate(`Date Collected` = as.numeric(`Date Collected`))
+xls_date <-  ptm_gps %>% 
+  mutate (converted = excel_numeric_to_date(ptm_gps$`Date Collected`,
+                                                 date_system = "modern"))
+```
+
+## Final Determination
+- cleaning up names
+```{r}
+species <- ptm_gps %>% count(`Final determination`, sort = TRUE)
+ptm_gps$`Final determination` <- gsub("Chondrachanthus", "Chondracanthus", ptm_gps$`Final determination`)
+
+ptm_gps$`Final determination` <- gsub("\r\n", "", ptm_gps$`Final determination`)
+ptm_gps$`Final determination` <- gsub("Sp\\.", "sp.", ptm_gps$`Final determination`)
+ptm_gps$`Final determination` <- gsub("sp. 2", "sp.2", ptm_gps$`Final determination`)
+ptm_gps$`Final determination` <- gsub("unknown species", "unknown", ptm_gps$`Final determination`)
+```
+
+## Coralline/ Red/ Green / Brown
+ensuring uniform data
+```{r eval=FALSE, include=FALSE}
+group_by(ptm_gps, `Red/Coralline/Green/Brown`) %>% 
+  summarise()
+ptm_gps$`Red/Coralline/Green/Brown` <- gsub("red", "Red", ptm_gps$`Red/Coralline/Green/Brown`)
+ptm_gps$`Red/Coralline/Green/Brown` <- gsub("\r\n", "", ptm_gps$`Red/Coralline/Green/Brown`)
+  
+```
+
+## correcting for inconsistencies
+### Main Collector and Determiners
+using gsub to fix
+```{r}
+group_by(ptm_gps, `Main Collector`) %>% 
+  summarise()
+ptm_gps$`Main Collector` <- gsub("P.T.Martone", "Patrick T. Martone", ptm_gps$`Main Collector`) 
+ptm_gps$`Main Collector` <- gsub("PTMartone", "Patrick T. Martone", ptm_gps$`Main Collector`)
+ptm_gps$`Main Collector` <- gsub("Samuel", "Sam", ptm_gps$`Main Collector`)
+ptm_gps$`Main Collector` <- gsub("Vanmaanen", "VanMaanen", ptm_gps$`Main Collector`) 
+group_by(ptm_gps, `Other collectors`) %>% 
+  summarise()
+group_by(ptm_gps, `Determiners`) %>% 
+  summarise()
+ptm_gps$`Determiners` <- gsub("Samuel", "Sam", ptm_gps$`Determiners`)
+group_by(ptm_gps, `Fragments available?`) %>% 
+  summarise()
+ptm_gps$`Fragments available?` <- gsub("yes", "Yes", ptm_gps$`Fragments available?`)
+ptm_gps$`Fragments available?` <- gsub("y", "Yes", ptm_gps$`Fragments available?`)
+```
+
+## Habitat and Locality
+extract depth data, accounts for # m, #m, # ft, #ft
+need to account for -0.5 - 0.0m
+easy way to include 3 digit numbers? or with decimals ##.#
+probably use a(?=c) a followed by c some how
+```{r echo=TRUE}
+group_by(ptm_gps, `Habitat`) %>% 
+  summarise()
+ptm_gps$Habitat <- gsub("Subtidal", "subtidal", ptm_gps$Habitat)
+group_by(ptm_gps, `Missing accession`) %>% 
+  summarise()
+depth <- ptm_gps %>%
+  filter(grepl("subtidal",Habitat),
+         grepl(",", Habitat)) %>% 
+  separate(col = Habitat, into = c("Habitat", "Depth", "Other"), sep = ",")
+#Locality
+point <- str_replace(ptm_gps$Locality,"Pt|Pt.","Point")
+#countries
+group_by(ptm_gps, `PCR date (CO1)`) %>% 
+  summarise()
+```
+
+```{r}
+ptm_gps <- ptm_gps %>% 
+  mutate(Latitude = as.numeric(Latitude),
+         Longitude = as.numeric(Longitude),
+         `PTM#` = as.numeric(ptm_gps$`PTM#`))
+
+write_csv(ptm_gps, "ptm_clean.csv")
+```
+
