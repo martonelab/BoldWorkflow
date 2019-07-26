@@ -86,7 +86,7 @@ submit_ptm <- new %>%
 submit_other <- new_other %>% 
   filter(new_other$`PTM#` %in% want_2$`PTM#`)
 
-test <- rbind(submit_ptm,submit_other)
+submit <- rbind(submit_ptm,submit_other)
 ```
 
 ## Get the Bold Template
@@ -156,52 +156,21 @@ higher_tax <- e_taxon %>%
 e_taxon <- tax[FALSE,]
 ```
 
-```{r}
-
-# df <- submit %>% 
-#   mutate(taxonomy =  classification(submit$`Final determination`, db="bold"))
-# 
-# test <- df %>% 
-#   mutate(species = tax_name(query = df$`Final determination`,
-#                             get = "species",
-#                             db = "ncbi"))
-
-# for(i in 1:length(higher)) {
-#   if(!is.na(higher[i])) {
-#     species <- higher[[i]]
-#      rect <- c(species$name)
-#      names(rect) <- c(species$rank)
-#      
-#     e_taxon <- e_taxon %>%  add_row(
-#       Phylum = rect["phylum"],
-#       Order = rect["order"],
-#       Family = rect["family"],
-#       Subfamily = rect["subfamily"],
-#       Species = rect["species"],
-#       Class = rect["class"],
-#       Genus = rect["genus"])
-#   }
-#   else{e_taxon <- e_taxon %>%  add_row(Phylum = NA)}
-# }
-# higher_tax <- e_taxon %>% 
-#   mutate(`Sample ID` = submit$`PTM#`)
-# 
-# e_taxon <- tax[FALSE,]
-```
-
 ## Voucher Sheet
 ** CAUTION CHECK THROUGH THIS PART**
 Edit the data to match the formatting of BOLD data
 ```{r}
 c_info <- submit %>% 
   mutate(# Voucher
-    Sample_ID = paste0("PTM",`PTM#`),
+    Sample_ID = ifelse(str_detect(`PTM#`,"^[:alpha:]"),
+                       `PTM#`,
+                       paste0("PTM",`PTM#`)),
     Field_ID = Sample_ID,
     Museum_ID = `Accession #`,
     Collection_Code = "",
     Insitution_Storing = "University of British Columbia, Herbarium",
     #Taxon
-    Species = `Final determination`,
+    Species = `Determination in the field`,
     Identifier = `Determiners`,
     Identifier_Email = "",
     Identifier_Insitution  = "University of British Columbia",
