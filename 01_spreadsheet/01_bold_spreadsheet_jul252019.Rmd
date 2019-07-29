@@ -173,6 +173,7 @@ c_info <- submit %>%
     Species = `Determination in the field`,
     Identifier = `Determiners`,
     Identifier_Email = "", # !!! make this correspond
+    # pmartone@mail.ubc.ca, samuel.starko@gmail.com
     Identifier_Insitution  = "University of British Columbia",
     `Identification_Method` = "",
     `Taxonomy Notes` = "", # !!! make this an available field
