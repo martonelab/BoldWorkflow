@@ -7,6 +7,7 @@ output: html_document
 
 ```{r}
 library(tidyverse)
+library(here)
 ```
 
 Names of files you want
@@ -35,3 +36,14 @@ look at the results
 ```{r}
 my_files
 ```
+
+### copy the files
+```{r}
+# identify the folders
+new_folder <- paste0(here(),"/01b_photos/results")
+ 
+# copy the files to the new folder
+my_files <- my_files %>% 
+  map(~file.copy(., new_folder))
+```
+
