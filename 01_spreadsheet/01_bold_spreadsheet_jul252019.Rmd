@@ -172,10 +172,10 @@ c_info <- submit %>%
     #Taxon
     Species = `Determination in the field`,
     Identifier = `Determiners`,
-    Identifier_Email = "",
+    Identifier_Email = "", # !!! make this correspond
     Identifier_Insitution  = "University of British Columbia",
     `Identification_Method` = "",
-    `Taxonomy Notes` = "",
+    `Taxonomy Notes` = "", # !!! make this an available field
     #collect
     Collectors = "",
     Collection_Date = `Date Collected`,
@@ -194,22 +194,24 @@ c_info <- submit %>%
     Assoc_spe = "",
     External = ""
     ) %>% #depends on dataset,
-  separate(Notes, c("Site_Code","Habitat"), ";", extra = "drop") %>% 
+  separate(Notes, c("Site_Code","Notes"), ";", extra = "drop") %>%
   separate(Locality, c("Sector","Exact_site"),",")
 
-c_info <- c_info %>% 
-  mutate(Elevation = "",
-         Depth = "",
+c_info_2 <- c_info %>% 
+  mutate(Sector = str_trim(Sector),
+         Exact_site = str_trim(Exact_site),
+         Elevation = "",
+         Depth = Depth,
          Elevation_Precision = "",
          Depth_Precision = "",
          GPS_Source	= "",
          Coordinate_Accuracy= "",
          Event_Time = "",
          Collection_Date_Accuracy	= "",
-         Habitat = c_info$Habitat,
+         Habitat = Habitat,
          Sampling_Protocol = "",
-         Collection_Notes = c_info$Habitat,
-         Site_Code = c_info$Site_Code,
+         Collection_Notes = Notes,
+         Site_Code = Site_Code, # !!! make this an available field
          Collection_Event_ID = "")
 ```
 
@@ -222,7 +224,7 @@ names(voucher) <- names(e_info)
 ```
 
 ```{r}
-s <- c_info %>% 
+s <- c_info_2 %>% 
   select(`Sample_ID`)
 
 t_high <-  higher_tax %>%
@@ -233,7 +235,7 @@ t_sub <- c_info %>%
 taxon <- cbind(s,t_high,t_sub)
 names(taxon) <- names(e_taxon)
 
-collect <-  c_info %>%
+collect <-  c_info_2 %>%
   select(`Sample_ID`,`Collectors`, `Collection_Date`, `Country_Ocean`,`State_Province`, `Region`, `Sector`, `Exact_site`, `Latitude`, `Longitude`,`Elevation`, Depth, Elevation_Precision, Depth_Precision, Depth_Precision, GPS_Source, Coordinate_Accuracy, Event_Time, Collection_Date_Accuracy, Habitat, Sampling_Protocol, Collection_Notes, Site_Code, Collection_Event_ID)
 
 names(collect) <- names(e_collect)
@@ -250,5 +252,5 @@ names(sd) <- names(e_specimen)
 - always look through the final records to see if the information has been placed correctly
 ```{r}
 lod <- list("Voucher Info" = voucher, "Taxonomy" = taxon, "Specimen Details" =sd, "Collection Data" = collect )
-write.xlsx(lod, file = "results/bold_jul252019.xlsx", append = TRUE)
+write.xlsx(lod, file = "results/bold_jul262019.xlsx", append = TRUE)
 ```
