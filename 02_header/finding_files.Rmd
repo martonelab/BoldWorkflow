@@ -54,7 +54,6 @@ sheet <- filter(new,
                 `PTM#` %in% want) %>% 
   select(`PTM#`)
 
-list.filter(want)
 ```
 
 

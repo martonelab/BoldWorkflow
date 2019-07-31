@@ -1,0 +1,49 @@
+---
+title: "01b_photos"
+author: "Jasmine"
+date: "29/07/2019"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+Names of files you want
+* note this is a file path for Mac. For Windows the path uses \
+```{r}
+path <- "/Volumes/martonelab/Photos/PTM1700-1799"
+```
+
+uses keywords (regex) to find the files containing those characters
+| - or
+
+```{r}
+photo <- c("PTM1725","PTM1730","PTM1727*")
+```
+
+Note: you need to be connected to the Martone Lab server
+```{r}
+my_files <- photo %>% 
+  map(~list.files(path = path,
+                  pattern = .,
+                  all.files = T,
+                  full.names = T))
+```
+
+look at the results
+```{r}
+my_files
+```
+
+### copy the files
+```{r}
+# identify the folders
+new_folder <- paste0(here(),"/01b_photos/results")
+ 
+# copy the files to the new folder
+my_files <- my_files %>% 
+  map(~file.copy(., new_folder))
+```
+
