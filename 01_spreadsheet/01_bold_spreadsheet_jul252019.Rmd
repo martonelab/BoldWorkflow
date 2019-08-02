@@ -178,7 +178,7 @@ c_info <- submit %>%
     `Identification_Method` = "",
     `Taxonomy Notes` = "", # !!! make this an available field
     #collect
-    Collectors = "",
+    Collectors = `Main Collector`, `Other collectors`,
     Collection_Date = `Date Collected`,
     Country_Ocean = Country,
     State_Province = StateProvince,
