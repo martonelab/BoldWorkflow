@@ -32,6 +32,8 @@ library(here)
 
 Google sheet documentation:
 https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html
+
+!!! eventually change this to googlesheets4 and googledrive
 ```{r}
 
 library(googlesheets)
@@ -250,6 +252,10 @@ names(sd) <- names(e_specimen)
 
 # Finally saving your data
 - always look through the final records to see if the information has been placed correctly
+
+!!! Look into writexl
+https://github.com/ropensci/writexl
+
 ```{r}
 lod <- list("Voucher Info" = voucher, "Taxonomy" = taxon, "Specimen Details" =sd, "Collection Data" = collect )
 write.xlsx(lod, file = "results/bold_spread_quad.xlsx", append = TRUE)
