@@ -55,7 +55,7 @@ new <- gs_ptm[-c(1,2),]
 
 If you don't want to use the google sheet api
 ```{r}
-master <- read_csv(here("01_spreadsheet/examples/PTM_Master.csv"))
+#master <- read_csv(here("01_spreadsheet/examples/PTM_Master.csv"))
 ```
 
 ## Data of interest
