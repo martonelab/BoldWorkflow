@@ -57,7 +57,7 @@ new <- gs_ptm[-c(1,2),]
 1. put the file with all the PTM numbers you want in this folder
 2. replace the example "Quad_Data.csv"
 ```{r}
-phyla <- "Red"
+phyla <- c("Red","Coralline")
 want <- "bioblitz2019"
 filename <- paste0("bioblitz_2019_",phyla)
 ```
@@ -68,13 +68,17 @@ filename <- paste0("bioblitz_2019_",phyla)
 new %>% 
   filter(Project == want) %>% 
   group_by(`Red/Coralline/Green/Brown`) %>% 
-  summarise(n())
+  summarise(n()) 
+
+new %>% 
+  filter(Project == want) %>% 
+  nrow()
 
 #1894 1936
-filter(new, Project == want, new$`Red/Coralline/Green/Brown` == "Coralline")
 
-submit <- new %>% 
-  filter(Project == want, `Red/Coralline/Green/Brown` == phyla, `Red/Coralline/Green/Brown` == "Coralline")
+submit <- phyla %>% 
+  map_dfr(~filter(new, Project == want, 
+                  `Red/Coralline/Green/Brown` == .))
 ```
 
 ## Get the Bold Template
