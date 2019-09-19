@@ -1,19 +1,4 @@
----
-title: "01 Filling Bold Spreadsheet"
-author: "Jasmine"
-date: '2019-03-01'
-output: html_document
----
-
-This notebook will walk you through how to use R to quickly take the PTM master list
-# how to use
-- this code is previously configured to work with an example (run the code chunks to see the output)
-- make a copy of this folder and edit the code to work for your dataset
-
-make sure if you have the dependancies:
-- if not type in `install.packages()` to your console with the package name
-
-```{r setup, include=FALSE}
+## ----setup, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
@@ -23,29 +8,9 @@ library(taxize)
 library(here)
 library(googlesheets)
 library(beepr)
-```
 
-## Data of interest
-1. put the file with all the PTM numbers you want in this folder
-2. replace the example "Quad_Data.csv"
-```{r}
-phyla <- c("Red","Coralline")
-want <- "bioblitz2019"
-filename <- paste0("bioblitz_2019_",phyla)
-```
 
-# Loading the data
-
-## PTM master list
-
-1. make sure you have the most recent version of the file saved from the google drive
-2. place the file in the 
-
-Google sheet documentation:
-https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html
-
-!!! eventually change this to googlesheets4 and googledrive
-```{r}
+## ------------------------------------------------------------------------
 #library(googlesheets4) # future will be googlesheets4
 #(ptm <- drive_get("PTM - Master List"))
 
@@ -60,11 +25,15 @@ gs_ptm<- gs_read(gs_master)
 #cleans up columns
 colnames(gs_ptm) <- gs_ptm[1,]
 new <- gs_ptm[-c(1,2),]
-```
 
-# filtering for the PTM# you want to submit and removing empty cells
-# note to self - update 1882 to Coralline
-```{r}
+
+## ------------------------------------------------------------------------
+phyla <- c("Red","Coralline")
+want <- "bioblitz2019"
+filename <- paste0("bioblitz_2019_",phyla)
+
+
+## ------------------------------------------------------------------------
 new %>% 
   filter(Project == want) %>% 
   group_by(`Red/Coralline/Green/Brown`) %>% 
@@ -79,10 +48,9 @@ new %>%
 submit <- phyla %>% 
   map_dfr(~filter(new, Project == want, 
                   `Red/Coralline/Green/Brown` == .))
-```
 
-## Get the Bold Template
-```{r}
+
+## ------------------------------------------------------------------------
 info <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 1)
 
 e_info <- info[FALSE,]
@@ -98,23 +66,13 @@ e_specimen <- spe[FALSE,]
 coll <- read_xls("SpecimenDataV3Transitional_BOLDTemplate.xls", skip = 1, sheet = 4)
 
 e_collect <- coll[FALSE,]
-```
 
-# Higher Taxonomy
 
-get the species you want
-*MOD - May need to combine between the Final determination and the field identification columns
-
-* note there is a limit to the number of entries you can retrieve at one time so subset the dataframe if needed
-```{r}
+## ------------------------------------------------------------------------
 higher <- classification(submit$`Determination in the field`, db="bold")
-```
 
-Get data for each species and write into a table
-- avoids NA
-- writes to a new dataframe
-- fills in Sample ID
-```{r}
+
+## ------------------------------------------------------------------------
 for(i in 1:length(higher)) {
   if(!is.na(higher[i])) {
     species <- higher[[i]]
@@ -136,9 +94,9 @@ higher_tax <- e_taxon %>%
   mutate(`Sample ID` = submit$`PTM#`)
 
 e_taxon <- tax[FALSE,]
-```
 
-```{r}
+
+## ------------------------------------------------------------------------
 # 
 # df <- submit %>% 
 #   mutate(taxonomy =  classification(submit$`Determination in the field`, db="bold"))
@@ -169,12 +127,9 @@ e_taxon <- tax[FALSE,]
 #   mutate(`Sample ID` = submit$`PTM#`)
 # 
 # e_taxon <- tax[FALSE,]
-```
 
-## Voucher Sheet
-** CAUTION CHECK THROUGH THIS PART**
-Edit the data to match the formatting of BOLD data
-```{r}
+
+## ------------------------------------------------------------------------
 c_info <- submit %>% 
   mutate(# Voucher
     Sample_ID = paste0("PTM",`PTM#`),
@@ -223,17 +178,17 @@ c_info <- c_info %>%
          Collection_Notes = "",
          Site_Code = "",
          Collection_Event_ID = "")
-```
 
-```{r}
+
+## ------------------------------------------------------------------------
 #selecting the relevant columns
 voucher <- c_info %>%
   select(`Sample_ID`,`Field_ID`, `Museum_ID`, `Collection_Code`, `Insitution_Storing`)
 
 names(voucher) <- names(e_info)
-```
 
-```{r}
+
+## ------------------------------------------------------------------------
 s <- c_info %>% 
   select(`Sample_ID`)
 
@@ -249,28 +204,20 @@ collect <-  c_info %>%
   select(`Sample_ID`,`Collectors`, `Collection_Date`, `Country_Ocean`,`State_Province`, `Region`, `Sector`, `Exact_site`, `Latitude`, `Longitude`,`Elevation`, Depth, Elevation_Precision, Depth_Precision, Depth_Precision, GPS_Source, Coordinate_Accuracy, Event_Time, Collection_Date_Accuracy, Habitat, Sampling_Protocol, Collection_Notes, Site_Code, Collection_Event_ID)
 
 names(collect) <- names(e_collect)
-```
 
-```{r}
+
+## ------------------------------------------------------------------------
 sd <- c_info %>% 
   select(Sample_ID,Sex, Reproduction, Life_Stage, Extra_info, Note, Voucher_stat, Tissue_des, Assoc_tax, Assoc_spe, External)
 
 names(sd) <- names(e_specimen)
-```
 
-# Finally saving your data
-- always look through the final records to see if the information has been placed correctly
 
-!!! Look into writexl
-https://github.com/ropensci/writexl
-
-```{r}
+## ------------------------------------------------------------------------
 lod <- list("Voucher Info" = voucher, "Taxonomy" = taxon, "Specimen Details" =sd, "Collection Data" = collect )
 write.xlsx(lod, file = paste0("results/",filename,".xlsx"), append = TRUE)
-```
 
-## beeps when done
-```{r}
+
+## ------------------------------------------------------------------------
 beep(sound = 5)
-```
 
