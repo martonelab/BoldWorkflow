@@ -184,7 +184,7 @@ c_info <- submit %>%
     Insitution_Storing = "University of British Columbia, Herbarium",
     #Taxon
     Species = `Determination in the field`,
-    Identifier = `Determiners`,
+    Identifier = `Determined by`,
     Identifier_Email = "",
     Identifier_Insitution  = "University of British Columbia",
     `Identification_Method` = "",
