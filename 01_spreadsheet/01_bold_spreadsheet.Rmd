@@ -54,6 +54,7 @@ new <- gs_ptm[-c(1,2),]
 ```
 
 If you don't want to use the google sheet api
+- download a copy of the masterlist to use (avoiding the storage of the master list on a public repo)
 ```{r}
 #master <- read_csv(here("01_spreadsheet/examples/PTM_Master.csv"))
 ```
@@ -252,9 +253,6 @@ names(sd) <- names(e_specimen)
 
 # Finally saving your data
 - always look through the final records to see if the information has been placed correctly
-
-!!! Look into writexl
-https://github.com/ropensci/writexl
 
 ```{r}
 lod <- list("Voucher Info" = voucher, "Taxonomy" = taxon, "Specimen Details" =sd, "Collection Data" = collect )

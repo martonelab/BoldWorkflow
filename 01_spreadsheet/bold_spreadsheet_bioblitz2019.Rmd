@@ -1,14 +1,9 @@
 ---
-title: "01 Filling Bold Spreadsheet"
+title: "01 Filling Bold Spreadsheet- EXAMPLE"
 author: "Jasmine"
 date: '2019-03-01'
 output: html_document
 ---
-
-This notebook will walk you through how to use R to quickly take the PTM master list
-# how to use
-- this code is previously configured to work with an example (run the code chunks to see the output)
-- make a copy of this folder and edit the code to work for your dataset
 
 make sure if you have the dependancies:
 - if not type in `install.packages()` to your console with the package name
