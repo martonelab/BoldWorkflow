@@ -1,5 +1,9 @@
-# bold-workflow
-how to submit data from the PTM data to bold
+# Bold Workflow
+_Code was developed for Bold V3_
+
+- Publishing records from the PTM master list to Bold and Genbank
+
+## how to submit data from the PTM data to bold
 
 ### each folder contains
 - some previously worked examples
