@@ -21,42 +21,28 @@ library(readxl)
 library(openxlsx)
 library(taxize)
 library(here)
+library(googlesheets4)
 ```
 
 # Loading the data
-
-## PTM master list
-
-1. make sure you have the most recent version of the file saved from the google drive
-2. place the file in the 
-
-Google sheet documentation:
-https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html
-
-!!! eventually change this to googlesheets4 and googledrive
 ```{r}
-
-library(googlesheets)
-#library(googlesheets4) # future will be googlesheets4
 #(ptm <- drive_get("PTM - Master List"))
+# 
+# #need to authenticate (see popup window)
+# mysheets <- gs_ls()
+# 
+# gs_master <- gs_title("PTM - Master List")
+# 
+# #gets the data
+# gs_ptm<- gs_read(gs_master)
 
-#need to authenticate (see popup window)
-mysheets <- gs_ls()
+# need to authenticate (see popup window)
+pml <- "https://docs.google.com/spreadsheets/d/1vzVIT5gjQ0yCGwbAyqB4f8pltOkLfWz27TIFTxnm9hk/edit#gid=0"
+gs_ptm <- read_sheet(pml, sheet = "All PTM data", skip = 1, col_types = "iccccccDcccccccccccccccccccnnccccc-")
 
-gs_master <- gs_title("PTM - Master List")
-
-#gets the data
-gs_ptm<- gs_read(gs_master)
 
 #cleans up columns
-colnames(gs_ptm) <- gs_ptm[1,]
-new <- gs_ptm[-c(1,2),]
-```
-
-If you don't want to use the google sheet api
-- download a copy of the masterlist to use (avoiding the storage of the master list on a public repo)
-```{r}
-#master <- read_csv(here("01_spreadsheet/examples/PTM_Master.csv"))
+master <- gs_ptm[-c(1,2),]
 ```
 
 ## Data of interest
@@ -130,39 +116,6 @@ higher_tax <- e_taxon %>%
 e_taxon <- tax[FALSE,]
 ```
 
-```{r}
-
-df <- submit %>% 
-  mutate(taxonomy =  classification(submit$`Final determination`, db="bold"))
-
-test <- df %>% 
-  mutate(species = tax_name(query = df$`Final determination`,
-                            get = "species",
-                            db = "ncbi"))
-
-for(i in 1:length(higher)) {
-  if(!is.na(higher[i])) {
-    species <- higher[[i]]
-     rect <- c(species$name)
-     names(rect) <- c(species$rank)
-     
-    e_taxon <- e_taxon %>%  add_row(
-      Phylum = rect["phylum"],
-      Order = rect["order"],
-      Family = rect["family"],
-      Subfamily = rect["subfamily"],
-      Species = rect["species"],
-      Class = rect["class"],
-      Genus = rect["genus"])
-  }
-  else{e_taxon <- e_taxon %>%  add_row(Phylum = NA)}
-}
-higher_tax <- e_taxon %>% 
-  mutate(`Sample ID` = submit$`PTM#`)
-
-e_taxon <- tax[FALSE,]
-```
-
 ## Voucher Sheet
 ** CAUTION CHECK THROUGH THIS PART**
 Edit the data to match the formatting of BOLD data
@@ -199,7 +152,7 @@ c_info <- submit %>%
     Assoc_spe = "",
     External = ""
     ) %>% #depends on dataset,
-  separate(Notes, c("Site_Code","Habitat"), ";", extra = "drop") %>% 
+  separate(Note, c("Site_Code","Habitat"), ";", extra = "drop") %>% 
   separate(Locality, c("Sector","Exact_site"),",")
 
 c_info <- c_info %>% 
@@ -215,7 +168,8 @@ c_info <- c_info %>%
          Sampling_Protocol = "",
          Collection_Notes = c_info$Habitat,
          Site_Code = c_info$Site_Code,
-         Collection_Event_ID = "")
+         Collection_Event_ID = "",
+         Note = "")
 ```
 
 ```{r}
